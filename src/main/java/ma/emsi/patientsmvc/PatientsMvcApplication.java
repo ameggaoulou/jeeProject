@@ -2,6 +2,7 @@ package ma.emsi.patientsmvc;
 
 import ma.emsi.patientsmvc.entities.Patient;
 import ma.emsi.patientsmvc.repositories.PatientRepository;
+import ma.emsi.patientsmvc.sec.service.SecurityService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,5 +37,24 @@ public class PatientsMvcApplication {
 
 
     }
+    @Bean
+    CommandLineRunner saveUsers(SecurityService securityService) {
+        return args -> {
+            securityService.saveNewUser("da3bol", "1234", "1234");
+            securityService.saveNewUser("moha1", "1234", "1234");
+            securityService.saveNewUser("zak", "1234", "1234");
+            securityService.saveNewRole("USER", "");
+            securityService.saveNewRole("ADMIN", "");
+
+            securityService.addRoleToUser("moha1", "USER");
+            securityService.addRoleToUser("zak", "USER");
+            securityService.addRoleToUser("da3bol", "ADMIN");
+        };
+    }
+
+
+
+
+
 
 }

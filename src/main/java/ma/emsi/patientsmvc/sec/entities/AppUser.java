@@ -11,7 +11,7 @@ import java.util.List;
 @Data @AllArgsConstructor @NoArgsConstructor
 public class AppUser {
      @Id
-     private String  userid;
+     private String  userId;
      @Column(unique = true)
      private  String username;
      private String password;
@@ -20,6 +20,6 @@ public class AppUser {
      private List<AppRole> appRoles=new ArrayList<>();
 
 
-     public void getUserid(String toString) {
+     public void getUserId(String toString) {
      }
 }

@@ -28,7 +28,7 @@ public class SecurityServiceImpl implements SecurityService {
         if (!password.equals(rePassword))throw new RuntimeException("password incorrect");
         String hashedPWD=passwordEncoder.encode(password);
         AppUser appUser=new AppUser();
-        appUser.getUserid(UUID.randomUUID().toString());
+        appUser.getUserId(UUID.randomUUID().toString());
         appUser.setUsername(username);
         appUser.setPassword(hashedPWD);
         appUser.setActive(true);
@@ -37,11 +37,11 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public AppRole saveNewRole(String rolename, String description) {
-    AppRole appRole =appRoleRepository.findByRolename(rolename);
-        if (appRole != null)throw new RuntimeException("Role"+rolename+"ALL READY EXIST");
+    public AppRole saveNewRole(String roleName, String description) {
+    AppRole appRole =appRoleRepository.findByRoleName(roleName);
+        if (appRole != null)throw new RuntimeException("Role"+roleName+"ALL READY EXIST");
         appRole= new AppRole();
-        appRole.setRolename(rolename);
+        appRole.setRoleName(roleName);
         appRole.setDescription(description);
         AppRole savedAppRole=appRoleRepository.save(appRole);
 
@@ -49,9 +49,11 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public void addRoleToUser(String username, String rolename) {
+    public void addRoleToUser(String username, String roleName) {
         AppUser appUser=appUserRepository.findByUsername(username);
-        AppRole appRole=appRoleRepository.findByRolename(rolename);
+        if (appUser!=null) throw new RuntimeException("not found");
+        AppRole appRole=appRoleRepository.findByRoleName(roleName);
+        if (appRole!=null) throw new RuntimeException("not found");
         appUser.getAppRoles().add(appRole);
 
 
@@ -61,12 +63,16 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public void removeRoleFromUser(String username, String rolename) {
-
+    public void removeRoleFromUser(String username, String roleName) {
+        AppUser appUser=appUserRepository.findByUsername(username);
+        if (appUser!=null) throw new RuntimeException("not found");
+        AppRole appRole=appRoleRepository.findByRoleName(roleName);
+        if (appRole!=null) throw new RuntimeException("not found");
+        appUser.getAppRoles().remove(appRole);
     }
 
     @Override
     public AppUser loadUserByUsername(String username) {
-        return null;
+        return appUserRepository.findByUsername(username);
     }
 }

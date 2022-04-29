@@ -10,9 +10,9 @@ import javax.persistence.*;
 @Data @AllArgsConstructor @NoArgsConstructor
 public class AppRole {
 @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long roleid;
+    private long roleId;
     @Column(unique = true)
-    private String rolename;
+    private String roleName;
     private  String description;
 
 }
